@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_ERRORS, GET_PROJECT_TASKS, DELETE_PROJECT_TASK } from "./types";
+import {
+  GET_ERRORS,
+  GET_PROJECT_TASKS,
+  DELETE_PROJECT_TASK,
+  GET_PROJECT_TASK
+} from "./types";
 
 export const addProjectTask = (project_task, history) => async dispatch => {
   try {
@@ -36,5 +41,17 @@ export const deleteProjectTask = pt_id => async dispatch => {
       type: DELETE_PROJECT_TASK,
       payload: pt_id
     });
+  }
+};
+
+export const getProjectTask = (pt_id, history) => async dispatch => {
+  try {
+    const res = await axios.get(`http://localhost:8080/api/board/${pt_id}`);
+    dispatch({
+      type: GET_PROJECT_TASK,
+      payload: res.data
+    });
+  } catch (error) {
+    history.push("/");
   }
 };
